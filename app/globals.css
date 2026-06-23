@@ -1,0 +1,78 @@
+:root {
+  --orange: #ff6a1a;
+  --ink: #1c1d21;
+  --bg: #f1f0ec;
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+
+input::placeholder { color: #9b988f; }
+
+button {
+  font: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* Thin horizontal scrollbars used on the category bar + sort row. */
+.ct-scroll::-webkit-scrollbar { height: 8px; width: 8px; }
+.ct-scroll::-webkit-scrollbar-thumb { background: #cfcdc6; border-radius: 4px; }
+
+/* Product cards lift on hover (style-hover in the prototype). */
+.product-card { transition: box-shadow 0.18s ease; }
+.product-card:hover { box-shadow: 0 14px 34px rgba(0, 0, 0, 0.16); }
+
+/* Homepage promo tiles. */
+.promo-card { transition: transform 0.16s ease, box-shadow 0.16s ease; }
+.promo-card:hover { transform: translateY(-4px); box-shadow: 0 12px 26px rgba(0, 0, 0, 0.1); }
+
+/* Category-rail flyout preview cards. */
+.preview-card { transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease; }
+.preview-card:hover { transform: translateY(-3px); border-color: #ffd9bf; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.09); }
+
+/* Homepage category rail rows highlight on hover. */
+.cat-row { transition: background 0.12s ease, color 0.12s ease; }
+.cat-row:hover { background: #faf3ee; color: var(--orange) !important; }
+.cat-row:hover .cat-arrow { color: var(--orange); }
+
+/* Cart line remove control. */
+.remove-x { transition: color 0.12s ease; }
+.remove-x:hover { color: #cc3344; }
+
+/* Generic interactive opacity (category bar links). */
+.nav-link { transition: opacity 0.12s ease; }
+.nav-link:hover { opacity: 1; }
+
+/* Utility top bar. */
+.topbar-link { color: #b9bcc2; transition: color 0.12s ease; }
+.topbar-link:hover { color: #ff6a1a; }
+.topbar-social { color: #c2c5cb; border: 1px solid rgba(255, 255, 255, 0.22); transition: color 0.14s ease, border-color 0.14s ease, background 0.14s ease; }
+.topbar-social:hover { color: #fff; border-color: #ff6a1a; background: #ff6a1a; }
+
+/* Mega-menu category items. */
+.mega-item { transition: background 0.14s ease, transform 0.14s ease; }
+.mega-item:hover { background: #faf3ee; transform: translateX(3px); }
+.mega-ico { transition: background 0.14s ease, color 0.14s ease; }
+.mega-item:hover .mega-ico { background: #ff6a1a; color: #fff; }
+
+/* Respect users who prefer less motion. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

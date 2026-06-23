@@ -1,0 +1,68 @@
+// Sample product catalog for Computec — the FALLBACK data.
+// At runtime the app first tries to load live products from a published
+// Google Sheet (see SHEET_CSV_URL / loadProducts). Column order here
+// mirrors the Google Sheet template exactly.
+import type { Category } from "./types";
+
+export const CATEGORIES: Category[] = [
+  { id: "laptops", name: "Laptops & Notebooks", icon: "▣" },
+  { id: "components", name: "Desktop Components", icon: "◈" },
+  { id: "graphics", name: "Graphics Cards", icon: "◳" },
+  { id: "processors", name: "Processors", icon: "◇" },
+  { id: "storage", name: "Memory & Storage", icon: "◰" },
+  { id: "peripherals", name: "Peripherals", icon: "◐" },
+  { id: "monitors", name: "Monitors", icon: "▭" },
+  { id: "phones", name: "Phones & Tablets", icon: "▢" },
+];
+
+/** Compact category labels used in the homepage rail / category bar. */
+export const NAV_CATEGORIES: Category[] = [
+  { id: "laptops", name: "Laptops", icon: "▣" },
+  { id: "components", name: "Components", icon: "◈" },
+  { id: "graphics", name: "Graphics Cards", icon: "◳" },
+  { id: "processors", name: "Processors", icon: "◇" },
+  { id: "storage", name: "Memory & Storage", icon: "◰" },
+  { id: "peripherals", name: "Peripherals", icon: "◐" },
+  { id: "monitors", name: "Monitors", icon: "▭" },
+  { id: "phones", name: "Phones", icon: "▢" },
+];
+
+// price/oldPrice are plain numbers in PKR. image can be a URL or "" (falls back to a tile).
+export interface RawProduct {
+  id: string;
+  name: string;
+  category: string;
+  brand: string;
+  price: number;
+  oldPrice: number;
+  stock: number;
+  rating: number;
+  reviews: number;
+  badge: string;
+  image: string;
+  description: string;
+  specs: string;
+}
+
+export const PRODUCTS: RawProduct[] = [
+  { id: "p01", name: "ASUS ROG Strix G16 Gaming Laptop (i9, RTX 4070)", category: "laptops", brand: "ASUS", price: 459999, oldPrice: 499999, stock: 7, rating: 4.8, reviews: 212, badge: "-8%", image: "", description: "16\" QHD+ 240Hz display, Intel Core i9-14900HX, 16GB DDR5, RTX 4070 8GB, 1TB NVMe SSD. Built for serious gaming and creation.", specs: "CPU: i9-14900HX | GPU: RTX 4070 8GB | RAM: 16GB DDR5 | Storage: 1TB SSD | Display: 16\" QHD+ 240Hz" },
+  { id: "p02", name: "Apple MacBook Air 13\" M3 (8C GPU, 256GB)", category: "laptops", brand: "Apple", price: 384999, oldPrice: 0, stock: 12, rating: 4.9, reviews: 540, badge: "NEW", image: "", description: "Apple M3 chip, 13.6\" Liquid Retina, 8GB unified memory, 256GB SSD. Silent, fanless, all-day battery.", specs: "Chip: Apple M3 | RAM: 8GB | Storage: 256GB | Display: 13.6\" Retina | Battery: 18h" },
+  { id: "p03", name: "HP Pavilion 15 (Core i5-1335U, 16GB)", category: "laptops", brand: "HP", price: 184999, oldPrice: 199999, stock: 18, rating: 4.4, reviews: 156, badge: "", image: "", description: "Everyday productivity laptop. 15.6\" FHD IPS, Intel Core i5, 16GB RAM, 512GB SSD.", specs: "CPU: i5-1335U | RAM: 16GB | Storage: 512GB SSD | Display: 15.6\" FHD" },
+  { id: "p04", name: "NVIDIA GeForce RTX 4070 Ti Super 16GB OC", category: "graphics", brand: "MSI", price: 289999, oldPrice: 0, stock: 5, rating: 4.7, reviews: 98, badge: "HOT", image: "", description: "1440p and 4K gaming powerhouse with 16GB GDDR6X, DLSS 3.5 and ray tracing.", specs: "Memory: 16GB GDDR6X | Boost: 2610MHz | Ports: 3x DP, 1x HDMI" },
+  { id: "p05", name: "NVIDIA GeForce RTX 4060 8GB Dual", category: "graphics", brand: "ASUS", price: 119999, oldPrice: 132999, stock: 14, rating: 4.5, reviews: 143, badge: "-10%", image: "", description: "Efficient 1080p champion with DLSS 3 frame generation. Cool and quiet dual-fan design.", specs: "Memory: 8GB GDDR6 | Boost: 2475MHz | TDP: 115W" },
+  { id: "p06", name: "AMD Ryzen 7 7800X3D Processor", category: "processors", brand: "AMD", price: 134999, oldPrice: 0, stock: 9, rating: 4.9, reviews: 301, badge: "", image: "", description: "The fastest gaming CPU with 3D V-Cache. 8 cores, 16 threads, AM5 socket.", specs: "Cores: 8 | Threads: 16 | Boost: 5.0GHz | Socket: AM5 | Cache: 96MB" },
+  { id: "p07", name: "Intel Core i5-14600K Processor", category: "processors", brand: "Intel", price: 89999, oldPrice: 98999, stock: 16, rating: 4.6, reviews: 187, badge: "-9%", image: "", description: "14 cores of mainstream performance for gaming and multitasking. LGA1700 socket.", specs: "Cores: 14 (6P+8E) | Threads: 20 | Boost: 5.3GHz | Socket: LGA1700" },
+  { id: "p08", name: "Samsung 990 Pro 2TB NVMe Gen4 SSD", category: "storage", brand: "Samsung", price: 44999, oldPrice: 52999, stock: 25, rating: 4.8, reviews: 421, badge: "-15%", image: "", description: "Blazing PCIe 4.0 storage up to 7450 MB/s. Ideal for gaming and pro workloads.", specs: "Capacity: 2TB | Interface: PCIe 4.0 | Read: 7450MB/s | Write: 6900MB/s" },
+  { id: "p09", name: "Corsair Vengeance 32GB (2x16) DDR5-6000", category: "storage", brand: "Corsair", price: 31499, oldPrice: 0, stock: 22, rating: 4.7, reviews: 209, badge: "", image: "", description: "High-speed DDR5 memory tuned for AMD EXPO and Intel XMP. 32GB dual-channel kit.", specs: "Capacity: 32GB (2x16) | Speed: DDR5-6000 | CL: 36 | RGB: No" },
+  { id: "p10", name: "Logitech G Pro X Superlight Wireless Mouse", category: "peripherals", brand: "Logitech", price: 38999, oldPrice: 42999, stock: 30, rating: 4.9, reviews: 612, badge: "-9%", image: "", description: "63g esports wireless mouse with HERO 25K sensor. The choice of pros.", specs: "Weight: 63g | Sensor: HERO 25K | Battery: 70h | Connection: Lightspeed" },
+  { id: "p11", name: "Razer BlackWidow V4 Mechanical Keyboard", category: "peripherals", brand: "Razer", price: 42999, oldPrice: 0, stock: 17, rating: 4.6, reviews: 178, badge: "", image: "", description: "Full-size mechanical keyboard with Razer Green switches and Chroma RGB.", specs: "Switches: Razer Green | Layout: Full-size | RGB: Chroma | Wrist rest: Yes" },
+  { id: "p12", name: "Keychron K8 Pro Wireless Mechanical Keyboard", category: "peripherals", brand: "Keychron", price: 28999, oldPrice: 0, stock: 20, rating: 4.7, reviews: 256, badge: "", image: "", description: "Hot-swappable wireless mechanical board, Mac & Windows, QMK/VIA support.", specs: "Layout: TKL | Wireless: BT 5.1 | Hot-swap: Yes | Backlight: RGB" },
+  { id: "p13", name: "LG UltraGear 27\" QHD 180Hz Gaming Monitor", category: "monitors", brand: "LG", price: 74999, oldPrice: 84999, stock: 11, rating: 4.7, reviews: 134, badge: "-12%", image: "", description: "27\" Nano IPS, 1440p, 180Hz, 1ms, G-Sync compatible. Smooth and sharp.", specs: "Size: 27\" | Res: 2560x1440 | Refresh: 180Hz | Panel: Nano IPS | HDR: 10" },
+  { id: "p14", name: "Samsung Odyssey G5 32\" Curved 165Hz", category: "monitors", brand: "Samsung", price: 68999, oldPrice: 0, stock: 8, rating: 4.5, reviews: 97, badge: "", image: "", description: "Immersive 1000R curved VA panel, QHD, 165Hz, FreeSync Premium.", specs: "Size: 32\" | Res: 2560x1440 | Refresh: 165Hz | Curve: 1000R" },
+  { id: "p15", name: "Apple iPhone 15 Pro 256GB", category: "phones", brand: "Apple", price: 489999, oldPrice: 0, stock: 6, rating: 4.8, reviews: 534, badge: "", image: "", description: "Titanium design, A17 Pro chip, 48MP camera, USB-C. Pro performance in your pocket.", specs: "Chip: A17 Pro | Storage: 256GB | Display: 6.1\" OLED | Camera: 48MP" },
+  { id: "p16", name: "Samsung Galaxy S24 Ultra 512GB", category: "phones", brand: "Samsung", price: 524999, oldPrice: 559999, stock: 9, rating: 4.7, reviews: 389, badge: "-6%", image: "", description: "Built-in S Pen, 200MP camera, Snapdragon 8 Gen 3, Galaxy AI features.", specs: "Chip: Snapdragon 8 Gen 3 | Storage: 512GB | Display: 6.8\" | Camera: 200MP" },
+  { id: "p17", name: "ASUS TUF Gaming B650-Plus WiFi Motherboard", category: "components", brand: "ASUS", price: 64999, oldPrice: 0, stock: 13, rating: 4.6, reviews: 88, badge: "", image: "", description: "AM5 ATX board with WiFi 6, DDR5, PCIe 5.0 and rugged TUF components.", specs: "Socket: AM5 | Form: ATX | RAM: DDR5 | WiFi: 6 | PCIe: 5.0" },
+  { id: "p18", name: "Corsair RM850e 850W Gold PSU", category: "components", brand: "Corsair", price: 36999, oldPrice: 41999, stock: 19, rating: 4.8, reviews: 162, badge: "-12%", image: "", description: "Fully modular 80+ Gold power supply with quiet fan and ATX 3.0 / PCIe 5.0.", specs: "Wattage: 850W | Rating: 80+ Gold | Modular: Full | ATX: 3.0" },
+  { id: "p19", name: "NZXT Kraken 240 RGB AIO Liquid Cooler", category: "components", brand: "NZXT", price: 47999, oldPrice: 0, stock: 10, rating: 4.7, reviews: 121, badge: "", image: "", description: "240mm AIO with infinity-mirror RGB pump cap and quiet F-series fans.", specs: "Radiator: 240mm | Fans: 2x 120mm | Display: RGB pump | Socket: AM5/LGA1700" },
+  { id: "p20", name: "WD Black SN770 1TB NVMe Gen4 SSD", category: "storage", brand: "Western Digital", price: 22999, oldPrice: 26999, stock: 28, rating: 4.6, reviews: 244, badge: "-15%", image: "", description: "Affordable Gen4 gaming SSD up to 5150 MB/s. Great value upgrade.", specs: "Capacity: 1TB | Interface: PCIe 4.0 | Read: 5150MB/s | DRAM-less" },
+];
