@@ -4,6 +4,7 @@ import { getProducts, getProduct } from "@/lib/products";
 import { formatPKR, categoryName } from "@/lib/format";
 import ProductActions from "@/components/ProductActions";
 import ProductCard from "@/components/ProductCard";
+import ProductGallery from "@/components/ProductGallery";
 
 export default async function ProductPage({ params }: { params: { id: string } }) {
   const product = await getProduct(params.id);
@@ -35,19 +36,7 @@ export default async function ProductPage({ params }: { params: { id: string } }
 
       <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
         {/* gallery */}
-        <div style={{ width: 460, flex: "none", background: "#fff", borderRadius: 8, padding: 28 }}>
-          <div style={{ height: 360, background: "#f6f5f1", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
-            {product.badge && (
-              <div style={{ position: "absolute", top: 16, left: 16, background: "#ff6a1a", color: "#fff", fontSize: 12, fontWeight: 800, padding: "5px 11px", borderRadius: 4, fontFamily: "var(--font-archivo)" }}>{product.badge}</div>
-            )}
-            <div style={{ width: "74%", height: "70%", borderRadius: 10, background: product.tile, backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center" }} />
-          </div>
-          <div style={{ display: "flex", gap: 10, marginTop: 14 }}>
-            <div style={{ width: 70, height: 70, borderRadius: 6, background: "#f6f5f1", border: "2px solid #ff6a1a" }} />
-            <div style={{ width: 70, height: 70, borderRadius: 6, background: "#f6f5f1" }} />
-            <div style={{ width: 70, height: 70, borderRadius: 6, background: "#f6f5f1" }} />
-          </div>
-        </div>
+        <ProductGallery images={product.images} fallbackTile={product.tile} badge={product.badge} />
 
         {/* info */}
         <div style={{ flex: 1, minWidth: 0 }}>

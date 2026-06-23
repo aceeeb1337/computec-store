@@ -10,15 +10,46 @@
       "page": "/",
       "matchers": [
         {
-          "regexp": "^/.*$",
-          "originalSource": "/:path*"
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/manager-pos(.json)?[\\/#\\?]?$",
+          "originalSource": "/manager-pos"
+        },
+        {
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/manager-pos(?:\\/((?:[^\\/#\\?]+?)(?:\\/(?:[^\\/#\\?]+?))*))?(.json)?[\\/#\\?]?$",
+          "originalSource": "/manager-pos/:path*"
+        },
+        {
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/api\\/products(.json)?[\\/#\\?]?$",
+          "originalSource": "/api/products"
+        },
+        {
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/api\\/products(?:\\/((?:[^\\/#\\?]+?)(?:\\/(?:[^\\/#\\?]+?))*))?(.json)?[\\/#\\?]?$",
+          "originalSource": "/api/products/:path*"
+        },
+        {
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/api\\/orders(.json)?[\\/#\\?]?$",
+          "originalSource": "/api/orders"
+        },
+        {
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/api\\/orders(?:\\/((?:[^\\/#\\?]+?)(?:\\/(?:[^\\/#\\?]+?))*))?(.json)?[\\/#\\?]?$",
+          "originalSource": "/api/orders/:path*"
+        },
+        {
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/api\\/site-settings(.json)?[\\/#\\?]?$",
+          "originalSource": "/api/site-settings"
+        },
+        {
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/api\\/site-settings(?:\\/((?:[^\\/#\\?]+?)(?:\\/(?:[^\\/#\\?]+?))*))?(.json)?[\\/#\\?]?$",
+          "originalSource": "/api/site-settings/:path*"
         }
       ],
       "wasm": [],
       "assets": [],
       "env": {
-        "__NEXT_BUILD_ID": "development",
-        "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "t0RTuzl9B4hCuYQlCO4CpKKieO2YbTUyjMo8piuP0Bk="
+        "__NEXT_BUILD_ID": "jzDX-tlXeK8Bxnwe4MPzg",
+        "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "9RyyNZw4Eu6FDL4oOZFrj1vtLAvv/reKbPbb62DjnHY=",
+        "__NEXT_PREVIEW_MODE_ID": "9563bd3e8a262ca75702af246c4fc81e",
+        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "bccf4175b234e73298bce7e975e92c71aac3556e1c3ab7f69f382dfbe35ae8ae",
+        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "49b9494933698552005359c5debadce3b1f5c3a24c307cc0ec24d9481a1e10ec"
       }
     }
   },

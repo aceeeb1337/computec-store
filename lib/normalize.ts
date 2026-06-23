@@ -18,9 +18,23 @@ export const num = (v: unknown): number => {
   return isNaN(n) ? 0 : n;
 };
 
+/** Collect image URLs from an array, the legacy single field, or a delimited string. */
+export function toImageList(images: unknown, single: unknown): string[] {
+  const out: string[] = [];
+  const push = (v: unknown) => {
+    const s = String(v ?? "").trim();
+    if (s) out.push(s);
+  };
+  if (Array.isArray(images)) images.forEach(push);
+  else if (typeof images === "string") images.split(/[|\n]/).forEach(push);
+  push(single); // legacy single-image field, appended after explicit list
+  return Array.from(new Set(out)).slice(0, 8);
+}
+
 export function normalize(p: Partial<RawProduct>, i: number): Product {
-  const img = (p.image || "").trim();
   const category = p.category || "components";
+  const images = toImageList((p as { images?: unknown }).images, p.image);
+  const primary = images[0] || "";
   return {
     id: p.id || "p" + i,
     name: p.name || "Untitled",
@@ -34,8 +48,9 @@ export function normalize(p: Partial<RawProduct>, i: number): Product {
     badge: p.badge || "",
     description: p.description || "",
     specs: p.specs || "",
-    image: img,
-    tile: img ? `url("${img}")` : CATEGORY_TILES[category] || CATEGORY_TILES.components,
+    image: primary,
+    images,
+    tile: primary ? `url("${primary}")` : CATEGORY_TILES[category] || CATEGORY_TILES.components,
   };
 }
 

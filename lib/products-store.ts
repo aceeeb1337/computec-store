@@ -1,7 +1,7 @@
 import "server-only";
 import { read, write } from "./store";
 import { PRODUCTS, type RawProduct } from "./catalog-data";
-import { normalize, num } from "./normalize";
+import { normalize, num, toImageList } from "./normalize";
 import type { Product } from "./types";
 
 const KEY = "products.json";
@@ -31,6 +31,15 @@ const str = (v: unknown, max: number, fallback = ""): string =>
 /** Coerce/validate an incoming product into a clean RawProduct. */
 function clean(input: Partial<RawProduct>, existing?: RawProduct): RawProduct {
   const rating = input.rating ?? existing?.rating;
+  // An explicit `images` array (from the editor) is authoritative; otherwise
+  // fall back to the legacy single `image` field (old data / CSV import).
+  let images: string[];
+  if (Array.isArray(input.images)) images = input.images;
+  else if (Array.isArray(existing?.images)) images = existing!.images!;
+  else images = toImageList(undefined, input.image ?? existing?.image);
+  images = Array.from(new Set(images.map((u) => String(u ?? "").trim()).filter(Boolean)))
+    .slice(0, 8)
+    .map((u) => u.slice(0, 500));
   return {
     id: existing?.id || str(input.id, 40) || "p" + Date.now().toString(36),
     name: str(input.name ?? existing?.name, 160) || "Untitled",
@@ -42,7 +51,8 @@ function clean(input: Partial<RawProduct>, existing?: RawProduct): RawProduct {
     rating: rating ? Math.min(5, Math.max(0, parseFloat(String(rating)) || 4.6)) : 4.6,
     reviews: Math.max(0, Math.round(num(input.reviews ?? existing?.reviews))),
     badge: str(input.badge ?? existing?.badge, 12),
-    image: str(input.image ?? existing?.image, 500),
+    image: images[0] || "",
+    images,
     description: str(input.description ?? existing?.description, 1000),
     specs: str(input.specs ?? existing?.specs, 1000),
   };

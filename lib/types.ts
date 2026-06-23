@@ -11,8 +11,11 @@ export interface Product {
   badge: string;
   description: string;
   specs: string;
+  /** Primary image URL (= images[0]), or "" when only a category tile is used. */
   image: string;
-  /** CSS background value: either url("…") or a gradient tile. */
+  /** All product photo URLs, primary first. Empty when none are set. */
+  images: string[];
+  /** CSS background value for the primary: either url("…") or a gradient tile. */
   tile: string;
 }
 

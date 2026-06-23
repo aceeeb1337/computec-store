@@ -10,7 +10,7 @@ type FormState = Record<string, string>;
 
 const EMPTY: FormState = {
   name: "", category: "components", brand: "", price: "", oldPrice: "",
-  stock: "", rating: "4.6", reviews: "0", badge: "", image: "", description: "", specs: "",
+  stock: "", rating: "4.6", reviews: "0", badge: "", description: "", specs: "",
 };
 
 function toForm(p: Product): FormState {
@@ -18,8 +18,14 @@ function toForm(p: Product): FormState {
     name: p.name, category: p.category, brand: p.brand,
     price: String(p.price), oldPrice: p.oldPrice ? String(p.oldPrice) : "",
     stock: String(p.stock), rating: String(p.rating), reviews: String(p.reviews),
-    badge: p.badge, image: p.image, description: p.description, specs: p.specs,
+    badge: p.badge, description: p.description, specs: p.specs,
   };
+}
+
+interface Editing {
+  id: string | null;
+  form: FormState;
+  images: string[];
 }
 
 const inputStyle: React.CSSProperties = {
@@ -33,7 +39,7 @@ export default function ProductsManager({ products, source }: { products: Produc
   const router = useRouter();
   const readOnly = source === "sheet";
   const [query, setQuery] = useState("");
-  const [editing, setEditing] = useState<{ id: string | null; form: FormState } | null>(null);
+  const [editing, setEditing] = useState<Editing | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [confirmId, setConfirmId] = useState<string | null>(null);
@@ -44,9 +50,12 @@ export default function ProductsManager({ products, source }: { products: Produc
     return products.filter((p) => (p.name + " " + p.brand + " " + p.category).toLowerCase().includes(q));
   }, [products, query]);
 
-  const openAdd = () => { setError(""); setEditing({ id: null, form: { ...EMPTY } }); };
-  const openEdit = (p: Product) => { setError(""); setEditing({ id: p.id, form: toForm(p) }); };
+  const openAdd = () => { setError(""); setEditing({ id: null, form: { ...EMPTY }, images: [] }); };
+  const openEdit = (p: Product) => { setError(""); setEditing({ id: p.id, form: toForm(p), images: [...p.images] }); };
   const setField = (k: string, v: string) => setEditing((e) => (e ? { ...e, form: { ...e.form, [k]: v } } : e));
+  const setImage = (i: number, v: string) => setEditing((e) => (e ? { ...e, images: e.images.map((u, j) => (j === i ? v : u)) } : e));
+  const addImage = () => setEditing((e) => (e ? { ...e, images: [...e.images, ""] } : e));
+  const removeImage = (i: number) => setEditing((e) => (e ? { ...e, images: e.images.filter((_, j) => j !== i) } : e));
 
   const save = async () => {
     if (!editing) return;
@@ -58,7 +67,7 @@ export default function ProductsManager({ products, source }: { products: Produc
       const res = await fetch(url, {
         method: editing.id ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(editing.form),
+        body: JSON.stringify({ ...editing.form, images: editing.images.map((u) => u.trim()).filter(Boolean) }),
       });
       if (!res.ok) throw new Error();
       setEditing(null);
@@ -168,7 +177,19 @@ export default function ProductsManager({ products, source }: { products: Produc
                 <label><span style={label}>BADGE</span><input value={editing.form.badge} onChange={(e) => setField("badge", e.target.value)} placeholder="e.g. -15%, NEW, HOT" style={inputStyle} /></label>
                 <label><span style={label}>RATING (0–5)</span><input value={editing.form.rating} onChange={(e) => setField("rating", e.target.value)} inputMode="decimal" style={inputStyle} /></label>
                 <label><span style={label}>REVIEWS</span><input value={editing.form.reviews} onChange={(e) => setField("reviews", e.target.value)} inputMode="numeric" style={inputStyle} /></label>
-                <label style={{ gridColumn: "span 2" }}><span style={label}>IMAGE URL (optional — blank uses a category tile)</span><input value={editing.form.image} onChange={(e) => setField("image", e.target.value)} placeholder="https://…" style={inputStyle} /></label>
+                <div style={{ gridColumn: "span 2" }}>
+                  <span style={label}>IMAGES (first is the main photo — blank list uses a category tile)</span>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 6 }}>
+                    {editing.images.map((url, i) => (
+                      <div key={i} style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                        <div style={{ width: 36, height: 36, flex: "none", borderRadius: 6, background: url ? `url("${url}") center/cover, #f6f5f1` : "#f6f5f1", border: i === 0 ? "2px solid #ff6a1a" : "1px solid #e6e4dd" }} />
+                        <input value={url} onChange={(e) => setImage(i, e.target.value)} placeholder={`https://…  ${i === 0 ? "(primary)" : ""}`} style={{ ...inputStyle, marginTop: 0 }} />
+                        <button type="button" onClick={() => removeImage(i)} className="remove-x" style={{ color: "#c9c5bc", fontSize: 16, padding: "0 6px" }}>✕</button>
+                      </div>
+                    ))}
+                    <button type="button" onClick={addImage} style={{ alignSelf: "flex-start", fontSize: 12.5, fontWeight: 700, color: "#ff6a1a", padding: "4px 0" }}>+ Add image</button>
+                  </div>
+                </div>
                 <label style={{ gridColumn: "span 2" }}><span style={label}>DESCRIPTION</span><textarea value={editing.form.description} onChange={(e) => setField("description", e.target.value)} rows={2} style={{ ...inputStyle, resize: "vertical" }} /></label>
                 <label style={{ gridColumn: "span 2" }}><span style={label}>SPECS (key: value | key: value)</span><textarea value={editing.form.specs} onChange={(e) => setField("specs", e.target.value)} rows={2} placeholder="CPU: i9 | RAM: 16GB" style={{ ...inputStyle, resize: "vertical" }} /></label>
               </div>

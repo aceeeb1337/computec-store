@@ -40,6 +40,8 @@ export interface RawProduct {
   reviews: number;
   badge: string;
   image: string;
+  /** Optional multi-photo list. Falls back to `image` when absent. */
+  images?: string[];
   description: string;
   specs: string;
 }
