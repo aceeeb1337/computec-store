@@ -30,6 +30,7 @@ export default function CatalogView({ products, initialCategory, initialSearch, 
   const [maxPrice, setMaxPrice] = useState(0);
   const [brand, setBrand] = useState("all");
   const [onlyDeals, setOnlyDeals] = useState(initialDeals);
+  const [showFilters, setShowFilters] = useState(false);
 
   const brands = useMemo(
     () => ["all", ...Array.from(new Set(products.map((p) => p.brand)))],
@@ -72,9 +73,17 @@ export default function CatalogView({ products, initialCategory, initialSearch, 
   const labelStyle = { padding: "14px 18px 6px", fontSize: 11, fontWeight: 800, letterSpacing: "0.06em", color: "#a29e95" } as const;
 
   return (
-    <div style={{ maxWidth: 1320, margin: "0 auto", padding: "18px 28px 44px", display: "flex", gap: 20, alignItems: "flex-start" }}>
+    <div className="rwrap rsplit" style={{ maxWidth: 1320, margin: "0 auto", padding: "18px 28px 44px", display: "flex", gap: 20, alignItems: "flex-start" }}>
+      {/* mobile-only filters toggle */}
+      <button
+        className="rfilters-toggle"
+        onClick={() => setShowFilters((v) => !v)}
+        style={{ display: "none", width: "100%", background: "#fff", borderRadius: 6, padding: "12px 16px", fontFamily: "var(--font-archivo)", fontWeight: 800, fontSize: 13.5, color: "#1c1d21", textAlign: "left" }}
+      >
+        {showFilters ? "✕ Hide filters" : "☰ Filters & sort"}
+      </button>
       {/* filter sidebar */}
-      <div style={{ width: 244, flex: "none", background: "#fff", borderRadius: 6, padding: "4px 0 12px", position: "sticky", top: 86 }}>
+      <div className={`rside rfilter-panel ${showFilters ? "open" : ""}`} style={{ width: 244, flex: "none", background: "#fff", borderRadius: 6, padding: "4px 0 12px", position: "sticky", top: 86 }}>
         <div style={{ padding: "16px 18px 12px", fontFamily: "var(--font-archivo)", fontWeight: 900, fontSize: 13, letterSpacing: "0.04em", color: "#1c1d21", borderBottom: "1px solid #f1efe9" }}>FILTERS</div>
 
         <div style={labelStyle}>CATEGORY</div>
@@ -128,7 +137,7 @@ export default function CatalogView({ products, initialCategory, initialSearch, 
         </div>
 
         {list.length > 0 ? (
-          <StaggerGrid style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14 }}>
+          <StaggerGrid className="rg4" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14 }}>
             {list.map((p) => (
               <StaggerItem key={p.id}><ProductCard product={p} variant="catalog" /></StaggerItem>
             ))}

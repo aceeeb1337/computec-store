@@ -31,7 +31,7 @@ export default function ConfirmView() {
   const shipText = o.shipping === 0 ? "FREE" : formatPKR(o.shipping || 0);
 
   return (
-    <div style={{ maxWidth: 720, margin: "0 auto", padding: "40px 28px 60px" }}>
+    <div className="rwrap" style={{ maxWidth: 720, margin: "0 auto", padding: "40px 28px 60px" }}>
       <div style={{ background: "#fff", borderRadius: 10, overflow: "hidden" }}>
         <div style={{ background: "linear-gradient(135deg,#1c1d21,#2a2c31)", padding: "40px 32px", textAlign: "center" }}>
           <div style={{ width: 70, height: 70, margin: "0 auto 16px", borderRadius: "50%", background: "#1f8a4c", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 34, color: "#fff" }}>✓</div>

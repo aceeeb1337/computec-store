@@ -13,6 +13,7 @@ export default function Footer({ source }: { source: ProductSource }) {
   return (
     <div style={{ background: "#1c1d21", color: "#cfd0d4", marginTop: 10 }}>
       <div
+        className="rwrap rfooter"
         style={{
           maxWidth: 1320,
           margin: "0 auto",

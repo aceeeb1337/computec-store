@@ -37,12 +37,12 @@ export default async function HomePage() {
   return (
     <div>
       {/* hero row */}
-      <div style={{ display: "flex", gap: 14, padding: "16px 28px", maxWidth: 1320, margin: "0 auto" }}>
+      <div className="rwrap rhero-row" style={{ display: "flex", gap: 14, padding: "16px 28px", maxWidth: 1320, margin: "0 auto" }}>
         <CategoryRail products={products} />
 
         <HeroBanner hero={settings.hero} />
 
-        <div style={{ width: 210, flex: "none", display: "flex", flexDirection: "column", gap: 14 }}>
+        <div className="rhero-aside" style={{ width: 210, flex: "none", display: "flex", flexDirection: "column", gap: 14 }}>
           <Link href="/catalog" className="promo-card" style={{ flex: 1, background: "#fff", borderRadius: 5, padding: 18, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
             <div>
               <div style={{ fontFamily: "var(--font-archivo)", fontWeight: 800, fontSize: 15, color: "#1c1d21" }}>Build a PC</div>
@@ -61,7 +61,7 @@ export default async function HomePage() {
       </div>
 
       {/* flash sale */}
-      <Reveal style={{ maxWidth: 1320, margin: "0 auto", padding: "4px 28px 0" }}>
+      <Reveal className="rwrap" style={{ maxWidth: 1320, margin: "0 auto", padding: "4px 28px 0" }}>
         <div style={{ background: "#fff", borderRadius: 5, overflow: "hidden" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 20px", borderBottom: "2px solid #f3f2ee" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -70,7 +70,7 @@ export default async function HomePage() {
             </div>
             <Link href="/catalog?deals=1" style={{ fontSize: 13, fontWeight: 700, color: "#ff6a1a" }}>See all ›</Link>
           </div>
-          <StaggerGrid style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)" }}>
+          <StaggerGrid className="rg5" style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)" }}>
             {flashProducts.map((p) => (
               <StaggerItem key={p.id}><FlashCard p={p} /></StaggerItem>
             ))}
@@ -79,11 +79,11 @@ export default async function HomePage() {
       </Reveal>
 
       {/* just for you */}
-      <div style={{ maxWidth: 1320, margin: "0 auto", padding: "22px 28px 40px" }}>
+      <div className="rwrap" style={{ maxWidth: 1320, margin: "0 auto", padding: "22px 28px 40px" }}>
         <Reveal>
           <div style={{ fontFamily: "var(--font-archivo)", fontWeight: 900, fontSize: 19, color: "#1c1d21", margin: "6px 0 14px" }}>JUST FOR YOU</div>
         </Reveal>
-        <StaggerGrid style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 14 }}>
+        <StaggerGrid className="rg5" style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 14 }}>
           {gridProducts.map((p) => (
             <StaggerItem key={p.id}><ProductCard product={p} variant="grid" /></StaggerItem>
           ))}

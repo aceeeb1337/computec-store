@@ -41,12 +41,12 @@ export default function CartView({ products }: { products: Product[] }) {
   }
 
   return (
-    <div style={{ maxWidth: 1100, margin: "0 auto", padding: "22px 28px 50px" }}>
+    <div className="rwrap" style={{ maxWidth: 1100, margin: "0 auto", padding: "22px 28px 50px" }}>
       {title}
-      <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+      <div className="rsplit" style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
         <div style={{ flex: 1, minWidth: 0, background: "#fff", borderRadius: 8, overflow: "hidden" }}>
           {items.map((p) => (
-            <div key={p.id} style={{ display: "flex", gap: 16, padding: 18, borderBottom: "1px solid #f6f5f1", alignItems: "center" }}>
+            <div key={p.id} className="rcart-line" style={{ display: "flex", gap: 16, padding: 18, borderBottom: "1px solid #f6f5f1", alignItems: "center" }}>
               <div style={{ width: 84, height: 84, flex: "none", background: "#f6f5f1", borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
                 <div style={{ width: "76%", height: 60, borderRadius: 5, background: p.tile, backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center" }} />
               </div>
@@ -67,7 +67,7 @@ export default function CartView({ products }: { products: Product[] }) {
           <Link href="/catalog" style={{ display: "block", padding: "16px 18px", fontSize: 13, fontWeight: 700, color: "#ff6a1a" }}>← Continue shopping</Link>
         </div>
 
-        <div style={{ width: 320, flex: "none", background: "#fff", borderRadius: 8, padding: 22, position: "sticky", top: 86 }}>
+        <div className="rside" style={{ width: 320, flex: "none", background: "#fff", borderRadius: 8, padding: 22, position: "sticky", top: 86 }}>
           <div style={{ fontFamily: "var(--font-archivo)", fontWeight: 900, fontSize: 15, color: "#1c1d21", marginBottom: 16 }}>Order Summary</div>
           <div style={{ display: "flex", justifyContent: "space-between", fontSize: 14, color: "#55555a", marginBottom: 11 }}><span>Subtotal</span><span style={{ fontWeight: 700, color: "#1c1d21" }}>{formatPKR(subtotal)}</span></div>
           <div style={{ display: "flex", justifyContent: "space-between", fontSize: 14, color: "#55555a", marginBottom: 11 }}><span>Delivery</span><span style={{ fontWeight: 700, color: "#1f8a4c" }}>{shipText}</span></div>

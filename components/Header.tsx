@@ -20,6 +20,7 @@ export default function Header() {
 
   return (
     <div
+      className="rheader"
       style={{
         background: "#1c1d21",
         padding: "13px 28px",
@@ -45,7 +46,7 @@ export default function Header() {
         COMPU<span style={{ color: "#ff6a1a" }}>TEC</span>
       </Link>
 
-      <div style={{ flex: 1, display: "flex", background: "#fff", borderRadius: 4, overflow: "hidden", maxWidth: 720 }}>
+      <div className="rheader-search" style={{ flex: 1, display: "flex", background: "#fff", borderRadius: 4, overflow: "hidden", maxWidth: 720 }}>
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -70,7 +71,7 @@ export default function Header() {
         </button>
       </div>
 
-      <div style={{ display: "flex", gap: 20, color: "#cfd0d4", fontSize: 13, fontWeight: 600, alignItems: "center", whiteSpace: "nowrap" }}>
+      <div className="rheader-actions" style={{ display: "flex", gap: 20, color: "#cfd0d4", fontSize: 13, fontWeight: 600, alignItems: "center", whiteSpace: "nowrap" }}>
         <Link href="/cart" style={{ display: "flex", alignItems: "center", gap: 7, color: "#fff" }}>
           <motion.span style={{ position: "relative", fontSize: 17, display: "inline-block" }} whileHover={{ scale: 1.15, rotate: -8 }} transition={{ type: "spring", stiffness: 400, damping: 12 }}>
             🛒

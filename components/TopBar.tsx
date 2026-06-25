@@ -55,7 +55,7 @@ export default function TopBar({ socials }: { socials: SocialSettings }) {
   return (
     <div style={{ background: "#2a2c31", borderBottom: "1px solid #34353b" }}>
       <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 28px", height: 38, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
-        <div className="ct-scroll" style={{ display: "flex", alignItems: "center", gap: 13, overflowX: "auto" }}>
+        <div className="ct-scroll rtopbar-links" style={{ display: "flex", alignItems: "center", gap: 13, overflowX: "auto" }}>
           {items}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 9 }}>

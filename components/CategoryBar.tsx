@@ -74,7 +74,7 @@ export default function CategoryBar() {
             }}
           >
             <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 28px" }}>
-              <div style={{ background: "#fff", borderRadius: "0 0 10px 10px", boxShadow: "0 24px 50px rgba(0,0,0,0.18)", padding: 18, display: "grid", gridTemplateColumns: "repeat(4,1fr) 1.1fr", gap: 8 }}>
+              <div className="rmega" style={{ background: "#fff", borderRadius: "0 0 10px 10px", boxShadow: "0 24px 50px rgba(0,0,0,0.18)", padding: 18, display: "grid", gridTemplateColumns: "repeat(4,1fr) 1.1fr", gap: 8 }}>
                 {CATEGORIES.map((c, i) => (
                   <motion.div
                     key={c.id}

@@ -35,7 +35,7 @@ export default function HeroBanner({ hero }: { hero: HeroSettings }) {
       <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px)", backgroundSize: "38px 38px" }} />
 
       {/* 3D showpiece on the right — a random product each load */}
-      <div style={{ position: "absolute", top: 0, right: 0, bottom: 0, width: "58%", pointerEvents: "auto" }}>
+      <div className="rhero-3d" style={{ position: "absolute", top: 0, right: 0, bottom: 0, width: "58%", pointerEvents: "auto" }}>
         <Hero3D onPick={setPicked} />
       </div>
 
@@ -43,7 +43,7 @@ export default function HeroBanner({ hero }: { hero: HeroSettings }) {
         {hero.eyebrow && (
           <motion.div custom={0} variants={fade} initial="hidden" animate="show" style={{ fontSize: 13, fontWeight: 700, color: "#ff8a45", letterSpacing: "0.14em", marginBottom: 14, fontFamily: "var(--font-mono)" }}>{hero.eyebrow}</motion.div>
         )}
-        <motion.div custom={1} variants={fade} initial="hidden" animate="show" style={{ fontFamily: "var(--font-archivo)", fontWeight: 900, fontSize: 48, lineHeight: 1.0, color: "#fff", letterSpacing: "-0.02em" }}>
+        <motion.div className="rhero-title" custom={1} variants={fade} initial="hidden" animate="show" style={{ fontFamily: "var(--font-archivo)", fontWeight: 900, fontSize: 48, lineHeight: 1.0, color: "#fff", letterSpacing: "-0.02em" }}>
           {headlineLines.map((line, i) => (
             <span key={i}>{i > 0 && <br />}{line}</span>
           ))}

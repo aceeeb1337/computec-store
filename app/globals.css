@@ -76,3 +76,59 @@ button {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ============================================================
+   Responsive — tablet (≤1024px) and phone (≤520px) overrides.
+   Desktop layout is untouched (rules are scoped to media queries).
+   ============================================================ */
+@media (max-width: 1024px) {
+  /* page side padding */
+  .rwrap { padding-left: 16px !important; padding-right: 16px !important; }
+
+  /* two-column splits stack vertically; fixed sidebars go full width */
+  .rsplit { flex-direction: column !important; align-items: stretch !important; }
+  .rside { width: 100% !important; flex: 1 1 auto !important; position: static !important; top: auto !important; }
+
+  /* home hero row stacks; the hover category rail is desktop-only */
+  .rhero-row { flex-direction: column !important; }
+  .rhero-aside { width: 100% !important; flex-direction: row !important; }
+  .rcat-rail { display: none !important; }
+
+  /* product grids */
+  .rg5 { grid-template-columns: repeat(3, 1fr) !important; }
+  .rg4 { grid-template-columns: repeat(3, 1fr) !important; }
+
+  /* mega-menu + footer */
+  .rmega { grid-template-columns: repeat(2, 1fr) !important; }
+  .rfooter { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* admin stats + horizontal-scroll dense tables */
+  .radmin-stats { grid-template-columns: repeat(2, 1fr) !important; }
+  .rtable-scroll { overflow-x: auto; }
+  .rtable-scroll > .rtable-min { min-width: 680px; }
+
+  /* hero text */
+  .rhero-title { font-size: 34px !important; }
+
+  /* catalog: show the Filters toggle, collapse the panel by default */
+  .rfilters-toggle { display: block !important; }
+  .rfilter-panel { display: none !important; }
+  .rfilter-panel.open { display: block !important; }
+}
+
+@media (max-width: 520px) {
+  .rg5, .rg4 { grid-template-columns: repeat(2, 1fr) !important; }
+  .rmega, .rfooter { grid-template-columns: 1fr !important; }
+  .rhero-title { font-size: 27px !important; }
+  .rhero-3d { display: none !important; }
+  .rform-grid { grid-template-columns: 1fr !important; }
+  .rcart-line { flex-wrap: wrap !important; }
+
+  /* header: search drops to its own full-width row */
+  .rheader { flex-wrap: wrap !important; padding: 10px 14px !important; gap: 10px 12px !important; }
+  .rheader-search { order: 3 !important; flex-basis: 100% !important; max-width: none !important; }
+  .rheader-actions { margin-left: auto !important; }
+
+  /* top bar: keep socials, hide the text links */
+  .rtopbar-links { display: none !important; }
+}

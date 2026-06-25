@@ -48,7 +48,7 @@ export default function AdminView({ products, orders, source, settings }: Props)
   const sourceLabel = source === "sheet" ? "Live · Google Sheets" : "Live · Admin catalog";
 
   return (
-    <div style={{ maxWidth: 1320, margin: "0 auto", padding: "22px 28px 50px" }}>
+    <div className="rwrap" style={{ maxWidth: 1320, margin: "0 auto", padding: "22px 28px 50px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18, flexWrap: "wrap", gap: 12 }}>
         <div>
           <div style={{ fontFamily: "var(--font-archivo)", fontWeight: 900, fontSize: 24, color: "#1c1d21" }}>Owner Dashboard</div>
@@ -84,15 +84,15 @@ export default function AdminView({ products, orders, source, settings }: Props)
       {/* ---- OVERVIEW ---- */}
       {tab === "overview" && (
         <>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14, marginBottom: 18 }}>
+          <div className="radmin-stats" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14, marginBottom: 18 }}>
             <Stat label="Revenue" value={formatPKR(revenue)} />
             <Stat label="Orders" value={orders.length} />
             <Stat label="Products listed" value={products.length} />
             <Stat label="Low stock" value={lowStock.length} accent />
           </div>
 
-          <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
-            <div style={{ flex: 1, minWidth: 0, background: "#fff", borderRadius: 8, overflow: "hidden" }}>
+          <div className="rsplit" style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+            <div className="rtable-scroll" style={{ flex: 1, minWidth: 0, background: "#fff", borderRadius: 8, overflow: "hidden" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 20px", borderBottom: "1px solid #f1efe9" }}>
                 <span style={{ fontFamily: "var(--font-archivo)", fontWeight: 900, fontSize: 14 }}>RECENT ORDERS</span>
                 <button onClick={() => setTab("orders")} style={{ fontSize: 12.5, fontWeight: 700, color: "#ff6a1a" }}>Manage ›</button>
@@ -107,7 +107,7 @@ export default function AdminView({ products, orders, source, settings }: Props)
               ))}
             </div>
 
-            <div style={{ width: 320, flex: "none", display: "flex", flexDirection: "column", gap: 16 }}>
+            <div className="rside" style={{ width: 320, flex: "none", display: "flex", flexDirection: "column", gap: 16 }}>
               <div style={{ background: "#fff", borderRadius: 8, padding: 20 }}>
                 <div style={{ fontFamily: "var(--font-archivo)", fontWeight: 900, fontSize: 14, marginBottom: 12 }}>LOW STOCK ALERTS</div>
                 {lowStock.length === 0 && <div style={{ fontSize: 12.5, color: "#8a8a8f" }}>Everything is well stocked.</div>}

@@ -29,12 +29,12 @@ export default async function ProductPage({ params }: { params: { id: string } }
     });
 
   return (
-    <div style={{ maxWidth: 1320, margin: "0 auto", padding: "18px 28px 44px" }}>
+    <div className="rwrap" style={{ maxWidth: 1320, margin: "0 auto", padding: "18px 28px 44px" }}>
       <div style={{ fontSize: 12, color: "#8a8a8f", marginBottom: 14 }}>
         <Link href="/">Home</Link> › <span>{categoryName(product.category)}</span> › <span style={{ color: "#1c1d21" }}>{product.brand}</span>
       </div>
 
-      <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+      <div className="rsplit" style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
         {/* gallery */}
         <ProductGallery images={product.images} fallbackTile={product.tile} badge={product.badge} />
 
@@ -81,7 +81,7 @@ export default async function ProductPage({ params }: { params: { id: string } }
       {/* related */}
       <div style={{ marginTop: 32 }}>
         <div style={{ fontFamily: "var(--font-archivo)", fontWeight: 900, fontSize: 18, color: "#1c1d21", marginBottom: 14 }}>RELATED PRODUCTS</div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 14 }}>
+        <div className="rg5" style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 14 }}>
           {related.map((p) => <ProductCard key={p.id} product={p} variant="related" />)}
         </div>
       </div>

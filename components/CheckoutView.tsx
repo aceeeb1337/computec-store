@@ -62,16 +62,16 @@ export default function CheckoutView({ products }: { products: Product[] }) {
   }
 
   return (
-    <div style={{ maxWidth: 1100, margin: "0 auto", padding: "22px 28px 50px" }}>
+    <div className="rwrap" style={{ maxWidth: 1100, margin: "0 auto", padding: "22px 28px 50px" }}>
       <button onClick={() => router.push("/cart")} style={{ fontSize: 13, fontWeight: 700, color: "#ff6a1a", marginBottom: 12 }}>← Back to cart</button>
       <div style={{ fontFamily: "var(--font-archivo)", fontWeight: 900, fontSize: 24, color: "#1c1d21", marginBottom: 18 }}>Checkout</div>
 
-      <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+      <div className="rsplit" style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
         <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 16 }}>
           {/* contact */}
           <div style={{ background: "#fff", borderRadius: 8, padding: 22 }}>
             <div style={{ fontFamily: "var(--font-archivo)", fontWeight: 900, fontSize: 14, color: "#1c1d21", marginBottom: 16 }}>1 · Contact &amp; Delivery</div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+            <div className="rform-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
               <label style={{ display: "block" }}><span style={labelText}>Full name *</span><input value={form.name} onChange={(e) => set({ name: e.target.value })} placeholder="e.g. Ali Hassan" style={inputStyle} /></label>
               <label style={{ display: "block" }}><span style={labelText}>Phone *</span><input value={form.phone} onChange={(e) => set({ phone: e.target.value })} placeholder="03XX XXXXXXX" style={inputStyle} /></label>
               <label style={{ display: "block", gridColumn: "span 2" }}><span style={labelText}>Email (for receipt)</span><input value={form.email} onChange={(e) => set({ email: e.target.value })} placeholder="you@email.com" style={inputStyle} /></label>
@@ -112,7 +112,7 @@ export default function CheckoutView({ products }: { products: Product[] }) {
         </div>
 
         {/* summary */}
-        <div style={{ width: 320, flex: "none", background: "#fff", borderRadius: 8, padding: 22, position: "sticky", top: 86 }}>
+        <div className="rside" style={{ width: 320, flex: "none", background: "#fff", borderRadius: 8, padding: 22, position: "sticky", top: 86 }}>
           <div style={{ fontFamily: "var(--font-archivo)", fontWeight: 900, fontSize: 15, color: "#1c1d21", marginBottom: 14 }}>Order Summary</div>
           {items.map((p) => (
             <div key={p.id} style={{ display: "flex", justifyContent: "space-between", gap: 10, fontSize: 13, marginBottom: 10 }}>

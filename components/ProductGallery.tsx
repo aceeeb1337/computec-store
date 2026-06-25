@@ -16,7 +16,7 @@ export default function ProductGallery({
   const mainBg = hasImages ? `url("${images[Math.min(sel, images.length - 1)]}")` : fallbackTile;
 
   return (
-    <div style={{ width: 460, flex: "none", background: "#fff", borderRadius: 8, padding: 28 }}>
+    <div className="rside" style={{ width: 460, flex: "none", background: "#fff", borderRadius: 8, padding: 28 }}>
       <div style={{ height: 360, background: "#f6f5f1", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
         {badge && (
           <div style={{ position: "absolute", top: 16, left: 16, background: "#ff6a1a", color: "#fff", fontSize: 12, fontWeight: 800, padding: "5px 11px", borderRadius: 4, fontFamily: "var(--font-archivo)", zIndex: 1 }}>{badge}</div>

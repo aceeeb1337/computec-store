@@ -31,6 +31,7 @@ export default function CategoryRail({ products }: { products: Product[] }) {
     <div
       onMouseLeave={closeSoon}
       onMouseEnter={cancelClose}
+      className="rcat-rail"
       style={{ width: 244, flex: "none", position: "relative", zIndex: 30, alignSelf: "flex-start" }}
     >
       <div style={{ background: "#fff", borderRadius: 5, padding: "6px 0" }}>
