@@ -85,6 +85,34 @@ export async function deleteProduct(id: string): Promise<boolean> {
   return true;
 }
 
+/**
+ * Bulk-imports rows (e.g. from a Google Sheet CSV) into the editable catalog.
+ * - "replace": the imported rows become the whole catalog.
+ * - "merge": rows update existing products by `id`, new ids are added, and
+ *   products not in the sheet are kept.
+ */
+export async function importFromRows(
+  rows: Partial<RawProduct>[],
+  mode: "merge" | "replace",
+): Promise<{ imported: number; total: number }> {
+  if (mode === "replace") {
+    const cleaned = rows.map((r) => clean(r));
+    await write(KEY, cleaned);
+    return { imported: cleaned.length, total: cleaned.length };
+  }
+  const existing = await rawProducts();
+  const byId = new Map(existing.map((p) => [p.id, p] as const));
+  for (const r of rows) {
+    const id = String(r.id ?? "").trim();
+    const prev = id ? byId.get(id) : undefined;
+    const c = clean(prev ? { ...prev, ...r } : r, prev);
+    byId.set(c.id, c);
+  }
+  const merged = Array.from(byId.values());
+  await write(KEY, merged);
+  return { imported: rows.length, total: merged.length };
+}
+
 /** Reduces stock when an order is placed (never below zero). */
 export async function decrementStock(items: { id: string; qty: number }[]): Promise<void> {
   const list = await rawProducts();

@@ -18,16 +18,24 @@ export const num = (v: unknown): number => {
   return isNaN(n) ? 0 : n;
 };
 
-/** Collect image URLs from an array, the legacy single field, or a delimited string. */
+/**
+ * Collect image URLs from an array (admin editor) or from `|`/newline-separated
+ * strings (the sheet's `images` OR `image` column). Primary first, max 8, deduped.
+ */
 export function toImageList(images: unknown, single: unknown): string[] {
   const out: string[] = [];
-  const push = (v: unknown) => {
-    const s = String(v ?? "").trim();
-    if (s) out.push(s);
+  const add = (v: unknown) => {
+    if (Array.isArray(v)) {
+      v.forEach(add);
+      return;
+    }
+    String(v ?? "").split(/[|\n]/).forEach((part) => {
+      const s = part.trim();
+      if (s) out.push(s);
+    });
   };
-  if (Array.isArray(images)) images.forEach(push);
-  else if (typeof images === "string") images.split(/[|\n]/).forEach(push);
-  push(single); // legacy single-image field, appended after explicit list
+  add(images); // explicit `images` column / array first
+  add(single); // then the legacy single `image` column
   return Array.from(new Set(out)).slice(0, 8);
 }
 

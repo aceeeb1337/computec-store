@@ -43,6 +43,11 @@ export default function ProductsManager({ products, source }: { products: Produc
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [confirmId, setConfirmId] = useState<string | null>(null);
+  const [showImport, setShowImport] = useState(false);
+  const [importUrl, setImportUrl] = useState("");
+  const [importMode, setImportMode] = useState<"merge" | "replace">("merge");
+  const [importing, setImporting] = useState(false);
+  const [importMsg, setImportMsg] = useState<{ ok: boolean; text: string } | null>(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -85,6 +90,29 @@ export default function ProductsManager({ products, source }: { products: Produc
     router.refresh();
   };
 
+  const runImport = async () => {
+    setImporting(true);
+    setImportMsg(null);
+    try {
+      const res = await fetch("/api/products/import", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: importUrl.trim(), mode: importMode }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setImportMsg({ ok: false, text: data.error || "Import failed" });
+        return;
+      }
+      setImportMsg({ ok: true, text: `Imported ${data.imported} row${data.imported === 1 ? "" : "s"}. Catalog now has ${data.total} products.` });
+      router.refresh();
+    } catch {
+      setImportMsg({ ok: false, text: "Import failed — check the link and try again." });
+    } finally {
+      setImporting(false);
+    }
+  };
+
   return (
     <div style={{ background: "#fff", borderRadius: 8, overflow: "hidden" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 20px", borderBottom: "1px solid #f1efe9", gap: 12, flexWrap: "wrap" }}>
@@ -94,7 +122,10 @@ export default function ProductsManager({ products, source }: { products: Produc
         <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
           <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search products…" style={{ ...inputStyle, marginTop: 0, width: 220 }} />
           {!readOnly && (
-            <button onClick={openAdd} style={{ background: "#ff6a1a", color: "#fff", fontFamily: "var(--font-archivo)", fontWeight: 800, fontSize: 13, padding: "10px 16px", borderRadius: 6 }}>+ Add product</button>
+            <>
+              <button onClick={() => { setImportMsg(null); setShowImport(true); }} style={{ background: "#f3f2ee", color: "#55555a", fontWeight: 700, fontSize: 13, padding: "10px 16px", borderRadius: 6 }}>Import from Sheet</button>
+              <button onClick={openAdd} style={{ background: "#ff6a1a", color: "#fff", fontFamily: "var(--font-archivo)", fontWeight: 800, fontSize: 13, padding: "10px 16px", borderRadius: 6 }}>+ Add product</button>
+            </>
           )}
         </div>
       </div>
@@ -197,6 +228,65 @@ export default function ProductsManager({ products, source }: { products: Produc
               <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 18 }}>
                 <button onClick={() => setEditing(null)} disabled={saving} style={{ color: "#8a8a8f", fontWeight: 700, fontSize: 13.5, padding: "11px 16px" }}>Cancel</button>
                 <button onClick={save} disabled={saving} style={{ background: saving ? "#d8d6cf" : "#ff6a1a", color: "#fff", fontFamily: "var(--font-archivo)", fontWeight: 800, fontSize: 13.5, padding: "11px 22px", borderRadius: 6, cursor: saving ? "not-allowed" : "pointer" }}>{saving ? "Saving…" : editing.id ? "Save changes" : "Add product"}</button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* import-from-sheet modal */}
+      <AnimatePresence>
+        {showImport && (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            onClick={() => !importing && setShowImport(false)}
+            style={{ position: "fixed", inset: 0, background: "rgba(20,20,24,0.5)", zIndex: 100, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "60px 20px", overflowY: "auto" }}
+          >
+            <motion.div
+              initial={{ scale: 0.96, y: 12 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.97, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={(e) => e.stopPropagation()}
+              style={{ background: "#fff", borderRadius: 12, width: "100%", maxWidth: 540, padding: 24 }}
+            >
+              <div style={{ fontFamily: "var(--font-archivo)", fontWeight: 900, fontSize: 18, marginBottom: 6 }}>Import from Google Sheet</div>
+              <div style={{ fontSize: 12.5, color: "#8a8a8f", marginBottom: 16 }}>
+                Paste your <b>published-to-web CSV</b> link. Columns: id, name, category, brand, price, oldPrice, stock, rating, reviews, badge, image(s), description, specs.
+              </div>
+
+              <label style={{ display: "block" }}>
+                <span style={label}>SHEET CSV URL</span>
+                <input value={importUrl} onChange={(e) => setImportUrl(e.target.value)} placeholder="https://docs.google.com/.../pub?output=csv" style={inputStyle} />
+              </label>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 14 }}>
+                {([
+                  ["merge", "Add & update", "Updates products that share an id, adds new ones, keeps the rest."],
+                  ["replace", "Replace catalog", "Deletes everything and imports only the sheet's rows."],
+                ] as const).map(([val, title, desc]) => {
+                  const active = importMode === val;
+                  return (
+                    <div key={val} onClick={() => setImportMode(val)} style={{ display: "flex", gap: 11, alignItems: "flex-start", padding: "11px 13px", border: `2px solid ${active ? "#ff6a1a" : "#eceae4"}`, borderRadius: 8, cursor: "pointer", background: active ? "#fff8f3" : "#fff" }}>
+                      <div style={{ width: 18, height: 18, marginTop: 1, flex: "none", borderRadius: "50%", border: `2px solid ${active ? "#ff6a1a" : "#cfcdc6"}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <div style={{ width: 9, height: 9, borderRadius: "50%", background: active ? "#ff6a1a" : "transparent" }} />
+                      </div>
+                      <div>
+                        <div style={{ fontWeight: 800, fontSize: 13.5, color: "#1c1d21" }}>{title}{val === "replace" && <span style={{ color: "#cc3344", fontWeight: 700 }}> ⚠</span>}</div>
+                        <div style={{ fontSize: 12, color: "#8a8a8f", marginTop: 2 }}>{desc}</div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {importMsg && (
+                <div style={{ marginTop: 14, fontSize: 12.5, fontWeight: 700, color: importMsg.ok ? "#1f8a4c" : "#cc3344" }}>
+                  {importMsg.ok ? "✓ " : ""}{importMsg.text}
+                </div>
+              )}
+
+              <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 18 }}>
+                <button onClick={() => setShowImport(false)} disabled={importing} style={{ color: "#8a8a8f", fontWeight: 700, fontSize: 13.5, padding: "11px 16px" }}>Close</button>
+                <button onClick={runImport} disabled={importing || !importUrl.trim()} style={{ background: importing || !importUrl.trim() ? "#d8d6cf" : "#ff6a1a", color: "#fff", fontFamily: "var(--font-archivo)", fontWeight: 800, fontSize: 13.5, padding: "11px 22px", borderRadius: 6, cursor: importing || !importUrl.trim() ? "not-allowed" : "pointer" }}>{importing ? "Importing…" : "Import"}</button>
               </div>
             </motion.div>
           </motion.div>
